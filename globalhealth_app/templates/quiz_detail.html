@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ quiz.title }} - Global Health{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="quiz-header">
+        <h1>{{ quiz.title }}</h1>
+        <p>{{ quiz.description }}</p>
+    </div>
+    
+    <form method="post" class="quiz-form">
+        {% csrf_token %}
+        
+        {% for question in quiz.questions.all %}
+        <div class="question">
+            <div class="question-title">{{ forloop.counter }}. {{ question.text }}</div>
+            
+            <div class="options">
+                {% for option in question.options.all %}
+                <div class="option">
+                    {% if question.options.count > 2 %}
+                    <input type="checkbox" name="question_{{ question.id }}" value="{{ option.id }}" id="option_{{ option.id }}">
+                    {% else %}
+                    <input type="radio" name="question_{{ question.id }}" value="{{ option.id }}" id="option_{{ option.id }}">
+                    {% endif %}
+                    <label for="option_{{ option.id }}">{{ option.text }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+        
+        <div class="form-footer">
+            <button type="submit" class="submit-btn">Soumettre mes réponses</button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+    
+    .quiz-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .quiz-header h1 {
+        color: var(--primary);
+        font-size: 2.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .quiz-form {
+        background: white;
+        border-radius: 10px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .question {
+        margin-bottom: 2.5rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .question:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    
+    .question-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--dark);
+        margin-bottom: 1.5rem;
+    }
+    
+    .options {
+        display: grid;
+        gap: 1rem;
+    }
+    
+    .option {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background: #f5f7f9;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    
+    .option:hover {
+        background: #e8f0fe;
+        transform: translateY(-2px);
+    }
+    
+    .option input {
+        margin-right: 1rem;
+    }
+    
+    .option label {
+        cursor: pointer;
+        flex: 1;
+    }
+    
+    .form-footer {
+        margin-top: 2rem;
+        text-align: center;
+    }
+    
+    .submit-btn {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .submit-btn:hover {
+        background: var(--secondary);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}

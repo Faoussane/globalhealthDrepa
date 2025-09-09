@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Global Health - Un front uni contre la drépanocytose{% endblock %}</title>
+    
+    <!-- Bootstrap & FontAwesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="/static/images/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/images/logo.png" type="image/x-icon">
+
+    <!-- Styles globaux (copiés de index.html) -->
+    <style>
+        :root {
+            --primary1: #C8102E;
+            --primary: #C8102E;  
+            --secondary: #008C45; 
+            --light: #FFFFFF;     
+            --dark: #333333;      
+            --text: #444444;      
+            --light-gray: #f5f5f5; 
+            --header-bg: #FFFFFF;
+            --header-color: #333333;
+            --hero-bg: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80');
+            --vision-bg: linear-gradient(135deg, var(--primary), var(--secondary));
+            --mission-bg: #f5f5f5;
+            --cta-bg: #FFFFFF;
+            --footer-bg: #333333;
+            --btn-radius: 20px;
+            --font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .theme-2 {
+            --primary1: #ffffff;
+            --primary: #8f0a0a;
+            --secondary: #34a853;
+            --light: #f8f9fa;
+            --dark: #202124;
+            --text: #5f6368;
+            --light-gray: #e8f0fe;
+            --header-bg: linear-gradient(135deg, var(--primary), var(--secondary));
+            --header-color: white;
+            --hero-bg: url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80');
+            --vision-bg: linear-gradient(135deg, var(--primary), var(--secondary));
+            --mission-bg: white;
+            --cta-bg: #e8f0fe;
+            --footer-bg: #202124;
+            --btn-radius: 50px;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-family);
+        }
+        
+        body {
+            color: var(--text);
+            background-color: var(--light);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+            padding: 0;
+            width: 100%;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        
+        /* Bouton de changement de thème */
+        .theme-switcher {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* En-tête */
+        header {
+            background: var(--header-bg);
+            color: var(--header-color);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            height: 70px;
+            top: 0;
+            text-align: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary1);
+        }
+        
+        
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 2rem;
+        }
+        
+        nav ul li a {
+            color: var(--header-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        /* Sections générales */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .g {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            top: 0;
+            position: absolute;
+            /* right: 0; */
+            background-color: #0000004f;
+            /* left: 0; */
+            width: 100%;
+            height: 100%;
+            color: white;
+
+        }
+        .g h1, .g p, .g .btn {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+
+
+        .carousel-item.active .g h1,
+        .carousel-item.active .g p,
+        .carousel-item.active .g .btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .g h1 {
+            color: #ffffff;
+            font-size: 3rem;
+            font-weight: 700; 
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);ù
+        }
+        
+        .g p {
+            color: #ffffff;
+            font-size: 2rem;
+            transition-delay: 0.2s;
+
+        }
+        
+        .btn {
+            margin: 0 auto;
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: var(--btn-radius);
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition-delay: 0.4s;
+
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* À propos */
+        .about {
+            background-color: var(--light);
+            width: 100%;
+        }
+        
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 3px solid var(--secondary);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Vision */
+        .vision {
+            background: var(--vision-bg);
+            color: white;
+            text-align: center;
+        }
+        
+        .vision-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .vision-content blockquote {
+            font-size: 1.8rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            line-height: 1.4;
+            position: relative;
+            padding: 0 2rem;
+        }
+        
+        .vision-content blockquote:before,
+        .vision-content blockquote:after {
+            content: '"';
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.2);
+            position: absolute;
+        }
+        
+        .vision-content blockquote:before {
+            top: -20px;
+            left: 0;
+        }
+        
+        .vision-content blockquote:after {
+            bottom: -40px;
+            right: 0;
+        }
+        
+        /* Missions */
+        .missions {
+            background-color: var(--mission-bg);
+        }
+        
+        .missions-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .mission-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            flex: 1;
+            min-width: 300px;
+            max-width: 350px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-top: 5px solid var(--primary);
+            text-align: center;
+        }
+        
+        .mission-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            border-top: 5px solid var(--secondary);
+        }
+        
+        .mission-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            background: rgba(200, 16, 46, 0.1);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .theme-2 .mission-icon {
+            background: transparent;
+        }
+        
+        .mission-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        /* Appel à l'action */
+        .cta {
+            text-align: center;
+            background-color: var(--cta-bg);
+            padding: 4rem 2rem;
+            border-top: 3px solid var(--secondary);
+            border-bottom: 3px solid var(--secondary);
+        }
+        
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--footer-bg);
+            color: white;
+            padding: 3rem 2rem;
+        }
+        
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-col {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+        
+        .theme-2 .footer-col h3 {
+            color: #ffd700;
+        }
+        
+        .footer-col p, .footer-col li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-col a:hover {
+            color: var(--secondary);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Icônes et illustrations */
+        .health-icon {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+        
+        .illustration {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .illustration i {
+            font-size: 4rem;
+            color: var(--primary);
+            margin: 0 1rem;
+        }
+        
+        /* Animation douce */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .mission-card, .about-content, .vision-content {
+            animation: fadeIn 1s ease-out;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                height: auto; /* Supprime la hauteur fixe */
+                padding: 1rem;
+            }
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .logo {
+                margin-bottom: 1rem;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+                font-size: .9rem;
+                padding-left: 0;
+            }
+            .carou{
+                margin-top: 170px !important;           
+            }
+            
+            nav ul li {
+                margin: 0.5rem .6rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .theme-switcher {
+                top: 140px;
+                right: 10px;
+                padding: 8px 12px;
+                font-size: 0.9rem;
+                z-index: 1500;
+            }
+            .g{
+                padding: 30px 40px;
+            }
+            .g h1{
+                font-size: 1.2rem;
+            }
+            .g p{
+                font-size: .8rem;
+            }
+            .btn{
+                font-size: .5rem;
+            }
+            
+        .team-members {
+            grid-template-columns: 1fr !important;
+            width: 100%;
+            padding: 0 10px;
+        }
+        .member {
+            width: 100%;
+            max-width: 100% !important;
+        }
+        .member img {
+            height: auto;
+            max-width: 100%;
+        }
+        }
+        .logoImg{
+            width: 50px;          
+            height: auto;         
+        }
+        .team-members {
+            display: grid;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            grid-template-columns: 33.33% 33.33% 33.33%;
+            max-width: 100%;
+            padding: 0 15px;
+        }
+
+        .member {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+        padding: 15px;
+        text-align: center;
+        max-width: 270px;
+        }
+
+        .member img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        }
+        .carou {
+        margin-top: 70px;
+    }
+    .vision h2{
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+        padding: 2px 10px;
+        
+    }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="theme-1">
+    
+    <!-- Bouton changement de thème -->
+    <button class="theme-switcher" id="themeSwitcher">
+        <i class="fas fa-palette"></i>
+        <span>Changer de thème</span>
+    </button>
+
+    <!-- Navbar Django conservée -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="/static/images/logo.png" class="logoImg" alt="">
+                <span>Global Health Drépa</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'index' %}">Accueil</a></li>
+                    <li><a href="{% url 'blog_list' %}">Blog</a></li>
+                    <li><a href="{% url 'quiz_list' %}">Quiz</a></li>
+                    {% if user.is_staff %}
+                    <li><a href="{% url 'admin_dashboard' %}">Admin</a></li>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'admin:logout' %}">Déconnexion</a></li>
+                    {% else %}
+                    <li><a href="{% url 'admin:login' %}">Connexion</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Messages Django -->
+    <div class="messages">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Contenu dynamique -->
+    <main class="main-content carou">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer de index.html -->
+    <footer id="contact">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>Global Health Drépa</h3>
+                    <p>Un front fort et uni contre la drépanocytose. Ensemble, bâtissons un avenir sain et autonome pour chaque communauté.</p>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/profile.php?id=61572266491259&mibextid=ZbWKwL"><i class="fab fa-facebook-f"></i></a>
+                        <!-- <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a> -->
+                        <a href="https://www.linkedin.com/company/global-health-dr%C3%A9pa/ "><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Liens rapides</h3>
+                    <ul>
+                        <li><a href="#about">À propos</a></li>
+                        <li><a href="#vision">Vision</a></li>
+                        <li><a href="#missions">Missions</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Parakou, Nouveau Quartier, Maison SIKOU</p>
+                    <p><a href="tel:+229 01 66 68 18 45"><i class="fas fa-phone"></i> + 229 01 66 68 18 45</a></p>
+                    <p><a href="mailto:contactglobalhealth4@gmail.com"><i class="fas fa-envelope"></i>  contactglobalhealth4@gmail.com</a></p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Global Health Drépa. Tous droits réservés.</p>
+            </div>
+        </footer>
+
+    <!-- Script gestion des thèmes -->
+    <script>
+        const themeSwitcher = document.getElementById('themeSwitcher');
+        const body = document.body;
+        themeSwitcher.addEventListener('click', function() {
+            if (body.classList.contains('theme-1')) {
+                body.classList.replace('theme-1', 'theme-2');
+            } else {
+                body.classList.replace('theme-2', 'theme-1');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Simple animation on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.mission-card, .about-image, .about-text').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

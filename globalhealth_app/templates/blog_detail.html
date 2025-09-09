@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ blog.title }} - Global Health{% endblock %}
+
+{% block content %}
+<div class="container">
+    <article class="blog-detail">
+        <div class="blog-header">
+            <h1>{{ blog.title }}</h1>
+            <div class="blog-meta">
+                <span><i class="fas fa-user"></i> {{ blog.author.get_full_name }}</span>
+                <span><i class="fas fa-calendar"></i> {{ blog.published_date|date:"d F Y" }}</span>
+            </div>
+        </div>
+        
+        {% if blog.image %}
+        <div class="blog-image">
+            <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
+        </div>
+        {% endif %}
+        
+        <div class="blog-content">
+            {{ blog.content|safe }}
+        </div>
+        
+        <div class="blog-share">
+            <p>Partager cet article:</p>
+            <div class="share-buttons">
+                <a href="#" class="share-button"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="share-button"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="share-button"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="share-button"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </article>
+    
+    <div class="blog-navigation">
+        <a href="{% url 'blog_list' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Retour aux articles
+        </a>
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+    
+    .blog-detail {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+    }
+    
+    .blog-header {
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .blog-header h1 {
+        color: var(--primary);
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .blog-meta {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        color: var(--text);
+        font-size: 0.9rem;
+    }
+    
+    .blog-meta span {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+    
+    .blog-image {
+        margin-bottom: 2rem;
+    }
+    
+    .blog-image img {
+        width: 100%;
+        border-radius: 8px;
+    }
+    
+    .blog-content {
+        line-height: 1.8;
+        font-size: 1.1rem;
+    }
+    
+    .blog-content h2, .blog-content h3 {
+        color: var(--primary);
+        margin: 2rem 0 1rem;
+    }
+    
+    .blog-content p {
+        margin-bottom: 1.5rem;
+    }
+    
+    .blog-content blockquote {
+        border-left: 4px solid var(--primary);
+        padding-left: 1.5rem;
+        margin: 2rem 0;
+        font-style: italic;
+        color: var(--text);
+    }
+    
+    .blog-share {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid #eee;
+        text-align: center;
+    }
+    
+    .blog-share p {
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+    
+    .share-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .share-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .share-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .blog-navigation {
+        margin-top: 2rem;
+        text-align: center;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="10000">
+            <img src="/static/images/slid/s (2).jpg" class="d-block w-100" alt="...">
+            <div class="g">
+                <div style="width: 100%;">
+                    <h1>Un front fort et uni contre la drépanocytose</h1>
+                    <p>Ensemble, bâtissons un avenir sain et autonome pour chaque communauté</p>
+                    <a href="#contact" class="btn">Rejoignez-nous</a>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item" data-bs-interval="2000">
+            <img src="/static/images/slid/s (3).jpg" class="d-block w-100" alt="...">
+            <div class="g">
+                <h1>Un front fort et uni contre la drépanocytose</h1>
+                <p>Ensemble, bâtissons un avenir sain et autonome pour chaque communauté</p>
+                <a href="#contact" class="btn">Rejoignez-nous</a>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="/static/images/slid/s (1).jpg" class="d-block w-100" alt="...">
+            <div class="g">
+                <h1>Un front fort et uni contre la drépanocytose</h1>
+                <p>Ensemble, bâtissons un avenir sain et autonome pour chaque communauté</p>
+                <a href="#contact" class="btn">Rejoignez-nous</a>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<section id="about" class="about">
+    <h2 class="section-title">À propos de Global Health Drépa</h2>
+    <div class="about-content">
+        <div class="about-text">
+            <p>Global Health Drépa est une organisation engagée dans la lutte contre la drépanocytose, une maladie qui affecte de nombreuses vies. Avec une approche axée sur l'entraide, la solidarité et l'innovation, nous travaillons main dans la main avec les communautés pour un avenir meilleur.</p>
+            <p>Notre action se concentre sur la sensibilisation, la recherche des facteurs influents et la collaboration avec tous les acteurs concernés pour mettre en œuvre des solutions concrètes et durables.</p>
+            <p>Rejoignez-nous dans cette aventure ! Ensemble, nous pouvons faire la différence dans la lutte contre la drépanocytose.</p>
+        </div>
+        <div class="about-image">
+            <img src="/static/images/global.jpg" alt="Équipe Global Health travaillant avec une communauté">
+        </div>
+    </div>
+</section>
+
+<section class="vision">
+    <h2 class="section-title">Notre Vision</h2>
+    <div class="vision-content">
+        <blockquote>« Créer des approches intégrées et autonomes de lutte contre la drépanocytose, adaptées à chaque communauté. »</blockquote>
+        <p>Nous croyons en un monde où chaque communauté dispose des ressources et des connaissances nécessaires pour lutter efficacement contre la drépanocytose.</p>
+    </div>
+</section>
+
+<section class="missions">
+    <h2 class="section-title">Nos Missions</h2>
+    <div class="missions-container">
+        <div class="mission-card">
+            <div class="mission-icon">
+                <i class="fas fa-bullhorn"></i>
+            </div>
+            <h3>Sensibilisation</h3>
+            <p>Sensibiliser les communautés sur la drépanocytose, ses causes, ses symptômes et sa prise en charge.</p>
+        </div>
+        
+        <div class="mission-card">
+            <div class="mission-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <h3>Identification des facteurs</h3>
+            <p>Identifier les facteurs sociaux, culturels et économiques qui influencent l'incidence de la drépanocytose.</p>
+        </div>
+        
+        <div class="mission-card">
+            <div class="mission-icon">
+                <i class="fas fa-handshake"></i>
+            </div>
+            <h3>Collaboration</h3>
+            <p>Collaborer avec les leaders communautaires, les écoles, les religieux et le système de santé pour mettre en œuvre des solutions concrètes et durables.</p>
+        </div>
+    </div>
+</section>
+
+<section class="recent-content">
+    <h2 class="section-title">Contenu récent</h2>
+    <div class="content-grid">
+        <div class="content-column">
+            <h3>Derniers articles</h3>
+            {% for blog in blogs %}
+            <div class="content-card">
+                <h4><a href="{% url 'blog_detail' blog.slug %}">{{ blog.title }}</a></h4>
+                <p>{{ blog.content|striptags|truncatewords:30 }}</p>
+                <small>Publié le {{ blog.published_date|date:"d F Y" }}</small>
+            </div>
+            {% empty %}
+            <p>Aucun article pour le moment.</p>
+            {% endfor %}
+            <a href="{% url 'blog_list' %}" class="btn">Voir tous les articles</a>
+        </div>
+        
+        <div class="content-column">
+            <h3>Quiz récents</h3>
+            {% for quiz in quizzes %}
+            <div class="content-card">
+                <h4><a href="{% url 'quiz_detail' quiz.id %}">{{ quiz.title }}</a></h4>
+                <p>{{ quiz.description }}</p>
+            </div>
+            {% empty %}
+            <p>Aucun quiz pour le moment.</p>
+            {% endfor %}
+            <a href="{% url 'quiz_list' %}" class="btn">Voir tous les quiz</a>
+        </div>
+    </div>
+</section>
+
+    <section class="cta">
+            <div class="cta-content">
+                <h2 class="section-title">Notre Équipe</h2>
+                <p>Découvrez les membres passionnés qui portent la mission de Global Health Drépa.</p>
+                <div class="team-members">
+                    <div class="member">
+                        <img src="/static/images/membr/m1.jpg" alt="Nom du membre">
+                        <h3>Dr. Nassif Sime Deguri</h3>
+                        <p>Médecin Praticien, Chargé de Projet & Speaker, Coordinateur du Projet Global Health Drépa.</p>
+                    </div>
+
+                    <div class="member">
+                        <img src="/static/images/membr/m2.jpg" alt="Nom du membre">
+                        <h3>Yasmine Issifou</h3>
+                        <p>Épidémiologiste, Spécialiste en suivi-évaluation, Chargée du Suivi-évaluation du projet Global Health Drépa.</p>
+                    </div>
+
+                    <div class="member">
+                        <img src="/static/images/membr/m3.jpg" alt="Nom du membre">
+                        <h3>Boni Koto Aquilas</h3>
+                        <p>Vidéaste - Motion Designer - Infographiste, Photographe & Chargé de Projet, Chargé de la programmation et de la formation du projet Global Health Drépa.</p>
+                    </div>
+                    <div class="member">
+                        <img src="/static/images/membr/m4.jpg" alt="Nom du membre">
+                        <h3>Phrancklyn Mergellan Adjanou</h3>
+                        <p>Graphiste Designer & Chargé de Projet, Chargé de communication digitale du projet Global Health Drépa.</p>
+                    </div>
+                    <div class="member">
+                        <img src="/static/images/membr/m5.jpg" alt="Nom du membre">
+                        <h3>Rebécca Bona Doué Yarou</h3>
+                        <p>Géographe, Chargée de la mobilisation sociale du projet Global Health Drépa.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<style>
+    .recent-content {
+        padding: 5rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .content-column {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .content-column h3 {
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+    }
+    
+    .content-card {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .content-card:last-child {
+        border-bottom: none;
+    }
+    
+    .content-card h4 {
+        margin-bottom: 0.5rem;
+    }
+    
+    .content-card h4 a {
+        color: var(--dark);
+        text-decoration: none;
+    }
+    
+    .content-card h4 a:hover {
+        color: var(--primary);
+    }
+    
+    .content-card p {
+        margin-bottom: 0.5rem;
+    }
+    
+    .content-card small {
+        color: var(--text);
+    }
+    
+    @media (max-width: 768px) {
+        .content-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
