@@ -3,7 +3,7 @@ services:
     name: globalhealth-drepa
     env: python
     plan: free
-    region: frankfurt  # Choisissez la région la plus proche
+    region: frankfurt
     buildCommand: "./build.sh"
     startCommand: "gunicorn globalhealth_project.wsgi:application"
     envVars:
@@ -17,6 +17,13 @@ services:
         value: "False"
       - key: PYTHON_VERSION
         value: "3.11.6"
+      # Superuser automatique
+      - key: DJANGO_SUPERUSER_USERNAME
+        value: admin
+      - key: DJANGO_SUPERUSER_EMAIL
+        value: admin@example.com
+      - key: DJANGO_SUPERUSER_PASSWORD
+        value: mot_de_passe_solide123
 
 databases:
   - name: globalhealth_db
