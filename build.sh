@@ -2,12 +2,14 @@
 # Exit on error
 set -o errexit
 
-# Modify this line as needed for your package manager (pip, poetry, etc.)
+# Installer les dépendances
 pip install -r requirements.txt
 
-# Convert static asset files
+# Collecter les fichiers statiques
 python manage.py collectstatic --no-input
 
-# Apply any outstanding database migrations
+# Appliquer les migrations
 python manage.py migrate
+
+# Créer le superuser automatiquement (si inexistant)
 python create_superuser.py
