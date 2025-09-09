@@ -2,18 +2,11 @@
 # Exit on error
 set -o errexit
 
-# Install system dependencies required for psycopg2
-apt-get update && apt-get install -y \
-    libpq-dev \
-    python3-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Python dependencies
-pip install --upgrade pip
+# Modify this line as needed for your package manager (pip, poetry, etc.)
 pip install -r requirements.txt
 
-# Collect static files
+# Convert static asset files
 python manage.py collectstatic --no-input
 
-# Apply database migrations
+# Apply any outstanding database migrations
 python manage.py migrate
