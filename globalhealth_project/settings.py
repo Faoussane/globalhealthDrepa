@@ -62,18 +62,23 @@ TEMPLATES = [
 WSGI_APPLICATION = 'globalhealth_project.wsgi.application'
 
 # Database configuration
-if dj_database_url:
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL', 'sqlite:///db.sqlite3'),
-            conn_max_age=600
-        )
-    }
-else:
+if os.environ.get('USE_SQLITE', 'False') == 'True':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+else:
+    # Configuration PostgreSQL
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'globalhealth',
+            'USER': 'globalhealth_user',
+            'PASSWORD': 'phKJAOnV4aZnBpm2mjUW1IAyawVCjtrb',
+            'HOST': 'dpg-d3043kn5r7bs73b0tipg-a.frankfurt-postgres.render.com',
+            'PORT': '5432',
         }
     }
 
