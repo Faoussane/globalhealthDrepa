@@ -19,11 +19,11 @@ services:
         value: "3.11.6"
       # Superuser automatique
       - key: DJANGO_SUPERUSER_USERNAME
-        value: admin
+        value: Nassif
       - key: DJANGO_SUPERUSER_EMAIL
         value: admin@example.com
       - key: DJANGO_SUPERUSER_PASSWORD
-        value: mot_de_passe_solide123
+        value: Nassif1234
 
 databases:
   - name: globalhealth_db
